@@ -1,0 +1,16 @@
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px;
+}
+  
+.taskList > h2 {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 800;
+  color: #3a2e6f;
+  background: linear-gradient(to right, #7a5cff, #ff8ccf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
