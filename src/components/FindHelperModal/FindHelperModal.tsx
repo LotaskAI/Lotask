@@ -1,30 +1,26 @@
 'use client'
 
-import { useState } from 'react';
-import styles from './FindHelperModal.module.css';
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import styles from './FindHelperModal.module.css'
 
-type Props = {
-  onSubmit: (task: {
-    description: string;
-    keywords: string[];
-    budget: string;
-  }) => void;
-};
-
-export const FindHelperModal = ({ onSubmit }: Props) => {
-  const [description, setDescription] = useState('');
-  const [keywords, setKeywords] = useState('');
-  const [budget, setBudget] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+export const FindHelperModal = () => {
+  const [description, setDescription] = useState('')
+  const [keywords, setKeywords] = useState('')
+  const [budget, setBudget] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = () => {
-    onSubmit({
+    const query = new URLSearchParams({
       description,
-      keywords: keywords.split(',').map(k => k.trim()),
-      budget,
-    });
-    setIsOpen(false);
-  };
+      keywords,
+      budget
+    }).toString()
+
+    setIsOpen(false)
+    router.push(`/search?${query}`)
+  }
 
   return (
     <>
@@ -67,5 +63,5 @@ export const FindHelperModal = ({ onSubmit }: Props) => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
