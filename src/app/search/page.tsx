@@ -1,24 +1,10 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
 import { useTasksStore } from '@/stores/useTasksStore'
 import TaskItem from '@/components/TaskItem/TaskItem'
 
 export default function SearchResultsPage() {
-  const searchParams = useSearchParams()
-  const description = searchParams.get('description') || ''
-  const rawKeywords = searchParams.get('keywords') || ''
-  const keywords = rawKeywords.split(',').map(k => k.trim().toLowerCase())
-
-  const allTasks = useTasksStore((state) => state.tasks)
-
-  const results = allTasks.filter(task => {
-    const content = `${task.title} ${task.description} ${task.keywords.join(' ')}`.toLowerCase()
-    return (
-      content.includes(description.toLowerCase()) ||
-      keywords.some(k => content.includes(k))
-    )
-  })
+  const results = useTasksStore((state) => state.searchResults);
 
   return (
     <div style={{ padding: '2rem' }}>

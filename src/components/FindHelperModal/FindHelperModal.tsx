@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTasksStore } from '@/stores/useTasksStore';
+import { findSimilarTasks } from '@/app/utils/semanticSearch';
 import styles from './FindHelperModal.module.css'
 
 export const FindHelperModal = () => {
@@ -11,15 +13,14 @@ export const FindHelperModal = () => {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = () => {
-    const query = new URLSearchParams({
-      description,
-      keywords,
-      budget
-    }).toString()
+  const handleSubmit = async () => {
+    const allTasks = useTasksStore.getState().tasks;
+    const similar = await findSimilarTasks(description, allTasks);
 
-    setIsOpen(false)
-    router.push(`/search?${query}`)
+    useTasksStore.getState().setSearchResults(similar);
+
+    setIsOpen(false);
+     router.push('/search');
   }
 
   return (
