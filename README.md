@@ -4,6 +4,10 @@
 
 ---
 
+## Demo
+
+https://lotask-1.onrender.com
+
 ## Features
 
 - AI-assisted task search based on user input (description, keywords, and budget)
