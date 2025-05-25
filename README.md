@@ -4,6 +4,7 @@
 
 ---
 
+
 ## Features
 
 - AI-assisted task search based on user input (description, keywords, and budget)
@@ -45,4 +46,9 @@ cd Lotask
 npm install
 npm run dev
 ```
+
+## Demo
+
+https://lotask-1.onrender.com
+
 

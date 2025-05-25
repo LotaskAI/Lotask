@@ -1,30 +1,27 @@
 'use client'
 
-import { useState } from 'react';
-import styles from './FindHelperModal.module.css';
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useTasksStore } from '@/stores/useTasksStore';
+import { findSimilarTasks } from '@/app/utils/semanticSearch';
+import styles from './FindHelperModal.module.css'
 
-type Props = {
-  onSubmit: (task: {
-    description: string;
-    keywords: string[];
-    budget: string;
-  }) => void;
-};
+export const FindHelperModal = () => {
+  const [description, setDescription] = useState('')
+  const [keywords, setKeywords] = useState('')
+  const [budget, setBudget] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
 
-export const FindHelperModal = ({ onSubmit }: Props) => {
-  const [description, setDescription] = useState('');
-  const [keywords, setKeywords] = useState('');
-  const [budget, setBudget] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+  const handleSubmit = async () => {
+    const allTasks = useTasksStore.getState().tasks;
+    const similar = await findSimilarTasks(description, allTasks);
 
-  const handleSubmit = () => {
-    onSubmit({
-      description,
-      keywords: keywords.split(',').map(k => k.trim()),
-      budget,
-    });
+    useTasksStore.getState().setSearchResults(similar);
+
     setIsOpen(false);
-  };
+     router.push('/search');
+  }
 
   return (
     <>
@@ -67,5 +64,5 @@ export const FindHelperModal = ({ onSubmit }: Props) => {
         </div>
       )}
     </>
-  );
-};
+  )
+}

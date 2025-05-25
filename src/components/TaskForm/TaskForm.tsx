@@ -1,37 +1,60 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useTasksStore } from '@/stores/useTasksStore';
 import styles from './TaskForm.module.css';
 import { Task } from '@/types';
 
-type Props = {
-  onCreateTask: (task: Task) => void;
-};
-
-const TaskForm: React.FC<Props> = ({ onCreateTask }) => {
-  const [task, setTask] = useState('');
+const TaskForm: React.FC = () => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
-  const [reward, setReward] = useState('');
+  const [keywords, setKeywords] = useState('');
+  const [budget, setBudget] = useState<number | ''>('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const addTask = useTasksStore((state) => state.addTask);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (task && category && reward) {
-      onCreateTask({ task, category, reward });
-      setTask('');
-      setCategory('');
-      setReward('');
-    }
+
+    if (!title || !description || !category || !keywords || budget === '') return;
+
+    const newTask: Task = {
+      id: uuidv4(),
+      title,
+      description,
+      keywords: keywords.split(',').map((k) => k.trim()),
+      budget: budget.toString(),        
+      date: new Date().toISOString(),    
+    };
+
+    addTask(newTask);
+
+    setTitle('');
+    setDescription('');
+    setCategory('');
+    setKeywords('');
+    setBudget('');
   };
 
   return (
     <div className={styles.formContainer}>
-      <h2>Create a Task</h2>
+
       <form onSubmit={handleSubmit} className={styles.form}>
         <input
           type="text"
           className={styles.input}
-          placeholder="Task description"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
+
+        <textarea
+          className={styles.input}
+          placeholder="Task description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
         <input
           type="text"
           className={styles.input}
@@ -39,13 +62,25 @@ const TaskForm: React.FC<Props> = ({ onCreateTask }) => {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />
+
+        <input
+          type="text"
+          className={styles.input}
+          placeholder="Keywords (comma-separated)"
+          value={keywords}
+          onChange={(e) => setKeywords(e.target.value)}
+        />
+
         <input
           type="number"
           className={styles.input}
-          placeholder="Reward in tokens"
-          value={reward}
-          onChange={(e) => setReward(e.target.value)}
+          placeholder="Budget in tokens"
+          value={budget}
+          onChange={(e) =>
+            setBudget(e.target.value === '' ? '' : Number(e.target.value))
+          }
         />
+
         <button type="submit" className={styles.submitButton}>
           Post Task
         </button>
