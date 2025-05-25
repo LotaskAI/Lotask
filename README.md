@@ -4,9 +4,6 @@
 
 ---
 
-## Demo
-
-https://lotask-1.onrender.com
 
 ## Features
 
@@ -49,4 +46,9 @@ cd Lotask
 npm install
 npm run dev
 ```
+
+## Demo
+
+https://lotask-1.onrender.com
+
 
