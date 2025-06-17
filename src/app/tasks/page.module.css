@@ -18,3 +18,36 @@
   display: flex;
   gap: 10px;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.pageButton {
+  padding: 10px 20px;
+  background: #7a5cff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.pageButton:disabled {
+  background: #c9c6ff;
+  cursor: not-allowed;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: #5a3fdc;
+}
+
+.pageInfo {
+  font-size: 1rem;
+  color: #333;
+}
