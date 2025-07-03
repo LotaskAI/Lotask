@@ -32,3 +32,24 @@
     color: #ff5ec7;
     margin-top: 8px;
 }
+
+.acceptButton {
+  margin-top: 12px;
+  padding: 10px 20px;
+  background-color: #7a5cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.acceptButton:hover {
+  background-color: #5a3fdc;
+}
+
+.acceptButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
